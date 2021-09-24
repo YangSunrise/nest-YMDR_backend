@@ -7,11 +7,11 @@ export class UserAuth {
   @PrimaryGeneratedColumn()
   id: string;
   @ManyToOne(() => Users, (user) => user.id)
-  user: string;
-  @Column({ comment: '标识符类别' })
+  user: Users;
+  @Column({ comment: '标识符类别', default: 'phone' })
   identity_type: string;
   @Column({ comment: '标识符' })
-  identifier: string;
+  identifier?: string;
   @Column({ comment: '凭证' })
-  credential: string;
+  credential?: string;
 }

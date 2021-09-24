@@ -26,6 +26,9 @@ export class UsersController {
   @Post('register')
   Register(@Body() data: IdentityBody) {
     console.log(data);
+    // if (!this.authService.existUser(data)) {
+    //   return { code: 200, message: '创建失败' };
+    // } else
     return this.usersService.addOne(data);
   }
   //   @UseGuards(AuthGuard('jwt'))
