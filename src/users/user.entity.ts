@@ -1,10 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { UserAuth } from './userAuth.entity';
 /* 用户表 */
 @Entity()
 export class Users {
@@ -24,18 +19,4 @@ export class Users {
   modification_time: Date;
   @OneToMany(() => UserAuth, (Auth) => Auth.user)
   Auth: UserAuth[];
-}
-/** 用户登录权限验证 */
-@Entity()
-export class UserAuth {
-  @PrimaryGeneratedColumn()
-  id: string;
-  @ManyToOne(() => Users, (user) => user.id)
-  user: string;
-  @Column({ comment: '标识符类别' })
-  identity_type: string;
-  @Column({ comment: '标识符' })
-  identifier: string;
-  @Column({ comment: '凭证' })
-  credential: string;
 }

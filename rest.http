@@ -1,0 +1,17 @@
+@host = http://127.0.0.1:3005
+
+
+### 注册用户
+POST {{host}}/register HTTP/1.1
+content-type: application/json
+
+{
+  "identity_type": "44521",
+  "identifier": "44545",
+  "credential": "sajugiou"
+}
+
+### 注册用户
+POST {{host}}/auth/login HTTP/1.1
+content-type: application/json
+
