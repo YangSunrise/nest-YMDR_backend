@@ -1,17 +1,29 @@
 @host = http://127.0.0.1:3005
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjE1ODgzMzgzNjcwIiwic3ViIjoiYzM3YzhmZTEtZWViMy00YTVlLTliNWUtOTZmZmVjYTBmOTExIiwiaWF0IjoxNjMyNjQxNzc3LCJleHAiOjE2MzI3MjgxNzd9.dA-7tIjxR7yfeTMmPtYKpXa1CBhwthCJWad_DKnVvFU
 
 ### 注册用户
-POST {{host}}/register HTTP/1.1
+POST {{host}}/auth/register HTTP/1.1
 content-type: application/json
 
 {
-  "identity_type": "44521",
-  "identifier": "44545",
-  "credential": "sajugiou"
+  "identity_type": "phone",
+  "identifier": "15883383670",
+  "credential": "123456"
 }
 
-### 注册用户
+### 用户登录
 POST {{host}}/auth/login HTTP/1.1
 content-type: application/json
+{
+
+  "identifier": "15883383670",
+  "credential": "123456"
+}
+
+### 查询用户
+GET {{host}}/auth/profile HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+
 

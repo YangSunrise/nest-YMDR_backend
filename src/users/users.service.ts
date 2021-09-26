@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import { Users } from './user.entity';
 import { UserAuth } from './userAuth.entity';
+
+import { promisify } from 'util';
 export interface IdentityBody {
   identity_type: string;
   identifier: string;
@@ -18,33 +19,63 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  /**  get current user info */
-  // async findOne(username: string): Promise<User | undefined> {
-  //   return this.usersAuthRepository.find((user) => user.username === username);
-  // }
+  async bcryptHash(myPlaintextPassword, cost): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const bcrypt = require('bcryptjs');
+    const salt = await promisify(bcrypt.genSalt)(cost);
+
+    const hash = await promisify(bcrypt.hash)(myPlaintextPassword, salt);
+
+    return hash;
+  }
+  async getUserInfo(user: any): Promise<any> {
+    const userInfo = await this.usersRepository.findOne(user.userId);
+    if (userInfo) {
+      return {
+        code: 200,
+        data: userInfo,
+        success: true,
+      };
+    } else
+      return {
+        code: 200,
+        data: [],
+        success: false,
+      };
+  }
+
   /**
    * 注册用户信息
    * @param args
    */
   async addOne(args: IdentityBody): Promise<any> {
-    const User = new Users();
+    const user = await this.usersAuthRepository.find({
+      identifier: args.identifier,
+    });
+    if (user) {
+      return {
+        code: 200,
+        data: { success: false, message: '用户已存在' },
+      };
+    } else {
+      const User = new Users();
+      User.avatar = 'http://..ashgj';
 
-    User.avatar = 'http://..ashgj';
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const dayjs = require('dayjs');
-    User.create_time = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    User.modification_time = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    User.nickname = args.identifier;
+      User.nickname = args.identifier;
 
-    const userAuth = new UserAuth();
+      const userAuth = new UserAuth();
+      const credential = await this.bcryptHash(args.credential, 10);
+      userAuth.credential = credential;
+      userAuth.identifier = args.identifier;
+      userAuth.identity_type = args.identity_type;
+      userAuth.user = User;
 
-    userAuth.credential = args.credential;
-    userAuth.identifier = args.identifier;
-    userAuth.identity_type = args.identity_type;
-    userAuth.user = User;
-
-    await this.usersRepository.save(User).then((res) => console.log(res.id));
-    await this.usersAuthRepository.save(userAuth);
-    console.log(User, userAuth);
+      await this.usersRepository.save(User).then((res) => console.log(res.id));
+      await this.usersAuthRepository.save(userAuth);
+      return {
+        code: 200,
+        data: { success: true, message: '注册成功' },
+      };
+    }
   }
 }

@@ -3,8 +3,9 @@ import { JwtService } from '@nestjs/jwt/dist/jwt.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserAuth } from 'src/users/userAuth.entity';
 import { IdentityBody } from 'src/users/users.service';
-
+import bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
+import { Users } from 'src/users/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
@@ -12,15 +13,16 @@ export class AuthService {
     private usersAuthRepository: Repository<UserAuth>,
     private readonly jwtService: JwtService,
   ) {}
-  async validateUser(args: IdentityBody): Promise<any> {
-    console.log(args);
-    const user = await this.usersAuthRepository.findOne({
-      identity_type: args.identity_type,
-      identifier: args.identifier,
+  async validateUser(identifier: string, credential: string): Promise<any> {
+    const user = await this.usersAuthRepository.find({
+      where: { identifier: identifier },
+      relations: ['user'],
     });
-    if (user && user.credential === args.credential) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const bcrypt = require('bcryptjs');
+    if (user && bcrypt.compareSync(credential, user[0].credential)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return user.id;
+      return user[0].user;
     }
     return null;
   }
@@ -33,8 +35,8 @@ export class AuthService {
       return true;
     } else return false;
   }
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async login(user: Users) {
+    const payload = { username: user.nickname, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
