@@ -43,7 +43,9 @@ export class UsersService {
         success: false,
       };
   }
-
+  upDateUserInfo() {
+    return;
+  }
   /**
    * 注册用户信息
    * @param args
