@@ -816,6 +816,11 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/cache-manager@^3.4.2":
+  version "3.4.2"
+  resolved "https://registry.nlark.com/@types/cache-manager/download/@types/cache-manager-3.4.2.tgz?cache=0&sync_timestamp=1629706880656&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcache-manager%2Fdownload%2F%40types%2Fcache-manager-3.4.2.tgz#d57e7e5e6374d1037bdce753a05c9703e4483401"
+  integrity sha1-1X5+XmN00QN73OdToFyXA+RINAE=
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.nlark.com/@types/connect/download/@types/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -1459,6 +1464,11 @@ astral-regex@^2.0.0:
   resolved "https://registry.nlark.com/astral-regex/download/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha1-SDFDxWeu7UeFdZwIZXhtx319LjE=
 
+async@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.nlark.com/async/download/async-3.2.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fasync%2Fdownload%2Fasync-3.2.0.tgz#b3a2685c5ebb641d3de02d161002c60fc9f85720"
+  integrity sha1-s6JoXF67ZB094C0WEALGD8n4VyA=
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.nlark.com/asynckit/download/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1665,6 +1675,15 @@ bytes@3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/bytes/download/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha1-9s95M6Ng4FiPqf3oVlHNx/gF0fY=
+
+cache-manager@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.nlark.com/cache-manager/download/cache-manager-3.4.4.tgz#c69814763d3f3031395ae0d3a9a9296a91602226"
+  integrity sha1-xpgUdj0/MDE5WuDTqakpapFgIiY=
+  dependencies:
+    async "3.2.0"
+    lodash "^4.17.21"
+    lru-cache "6.0.0"
 
 call-bind@^1.0.0:
   version "1.0.2"
@@ -3815,6 +3834,13 @@ long@^4.0.0:
   resolved "https://registry.nlark.com/long/download/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
   integrity sha1-mntxz7fTYaGU6lVSQckvdGjVvyg=
 
+lru-cache@6.0.0, lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.nlark.com/lru-cache/download/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
+  dependencies:
+    yallist "^4.0.0"
+
 lru-cache@^4.1.3:
   version "4.1.5"
   resolved "https://registry.nlark.com/lru-cache/download/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
@@ -3822,13 +3848,6 @@ lru-cache@^4.1.3:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
-
-lru-cache@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.nlark.com/lru-cache/download/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
-  integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
-  dependencies:
-    yallist "^4.0.0"
 
 macos-release@^2.5.0:
   version "2.5.0"
@@ -4062,6 +4081,11 @@ node-releases@^1.1.75:
   version "1.1.75"
   resolved "https://registry.nlark.com/node-releases/download/node-releases-1.1.75.tgz?cache=0&sync_timestamp=1629280398871&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnode-releases%2Fdownload%2Fnode-releases-1.1.75.tgz#6dd8c876b9897a1b8e5a02de26afa79bb54ebbfe"
   integrity sha1-bdjIdrmJehuOWgLeJq+nm7VOu/4=
+
+nodemailer@^6.6.5:
+  version "6.6.5"
+  resolved "https://registry.npmmirror.com/nodemailer/download/nodemailer-6.6.5.tgz?cache=0&sync_timestamp=1632399103219&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fnodemailer%2Fdownload%2Fnodemailer-6.6.5.tgz#f9f6953cee5cfe82cbea152eeddacf7a0442049a"
+  integrity sha1-+faVPO5c/oLL6hUu7drPegRCBJo=
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"

@@ -6,16 +6,17 @@ POST {{host}}/auth/register HTTP/1.1
 content-type: application/json
 
 {
-  "identity_type": "phone",
-  "identifier": "15883383670",
-  "credential": "123456"
+  "identity_type": "email",
+  "identifier": "1256003290@qq.com",
+  "credential": "123456",
+  "verification_code": "DLWR"
 }
 
 ### 用户登录
 POST {{host}}/auth/login HTTP/1.1
 content-type: application/json
-{
 
+{
   "identifier": "15883383670",
   "credential": "123456"
 }

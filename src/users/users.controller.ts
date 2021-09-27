@@ -6,6 +6,7 @@ import {
   Get,
   Body,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Console } from 'console';
@@ -36,9 +37,13 @@ export class UsersController {
     return this.usersService.getUserInfo(req.user);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Post('update')
-  updateUser(@Request() req, @Body() body) {
-    return this.usersService.upDateUserInfo(req.user, body);
+  @Post('getRegCode')
+  getRegCode(@Body() data: { email: string }) {
+    const regText = RegExp(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/g);
+    if (data.email && regText.test(data.email)) {
+      return this.usersService.setEmail(data.email);
+    } else {
+      throw new BadRequestException();
+    }
   }
 }
