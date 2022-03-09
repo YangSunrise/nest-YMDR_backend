@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserAuth } from './userAuth.entity';
+
 /* 用户表 */
 @Entity()
 export class Users {
