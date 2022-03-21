@@ -13,6 +13,7 @@ import { UserAuth } from './userAuth.entity';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const nodemailer = require('nodemailer');
 import { promisify } from 'util';
+import { Router } from './router.entity';
 export interface IdentityBody {
   identity_type: string;
   identifier: string;
@@ -26,30 +27,46 @@ export class UsersService {
     private usersAuthRepository: Repository<UserAuth>,
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    @InjectRepository(Router)
+    private RouterRepository: Repository<Router>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+
+  async addModule() {
+    const router = new Router();
+    router.name = 'markdown';
+    router.description = 'markdown编辑';
+    router.icon = 'markdown';
+    (router.path = 'note/ui/markdown-edit'), (router.url = 'markdown');
+    await this.RouterRepository.save(router);
+  }
 
   async bcryptHash(myPlaintextPassword, cost): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const bcrypt = require('bcryptjs');
     const salt = await promisify(bcrypt.genSalt)(cost);
-
     const hash = await promisify(bcrypt.hash)(myPlaintextPassword, salt);
-
     return hash;
   }
   async getUserInfo(user: any): Promise<any> {
     const userInfo = await this.usersRepository.findOne(user.userId);
+    const { authority } = userInfo;
+    /** 查找路由权限 */
+    const authorityDetail = await Promise.all(
+      authority.map(async (v) => {
+        return await this.RouterRepository.findOne({ id: v });
+      }),
+    );
     if (userInfo) {
       return {
         code: 200,
-        data: userInfo,
+        data: { ...userInfo, authorityDetail },
         success: true,
       };
     } else
       return {
         code: 200,
-        data: [],
+        data: {},
         success: false,
       };
   }
@@ -64,13 +81,10 @@ export class UsersService {
     /** 判断验证码正确与否 */
     const verification_code = await this.cacheManager.get(args.identifier);
     if (verification_code != args.verification_code) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          error: '邮箱验证码错误',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
+      return {
+        status: HttpStatus.UNAUTHORIZED,
+        error: '邮箱验证码错误',
+      };
     }
 
     const user = await this.usersAuthRepository.find({

@@ -33,6 +33,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   getProfile(@Request() req) {
+    // this.usersService.addModule();
     return this.usersService.getUserInfo(req.user);
   }
 

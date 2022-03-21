@@ -1,7 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
-
-import { AuthModule } from 'src/auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common';
 import { FileService } from './file.service';
 import { MarkdownFileController } from './file.controller';
 

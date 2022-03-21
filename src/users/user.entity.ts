@@ -19,6 +19,8 @@ export class Users {
   avatar: string;
   @Column({ default: true, comment: '是否已注销' })
   isActive: boolean;
+  @Column({ type: 'simple-array' })
+  authority?: string[];
   @CreateDateColumn()
   create_time: Date;
   @Column({ default: 0, comment: '性别' })
@@ -27,4 +29,5 @@ export class Users {
   updateTime: Date;
   @OneToMany(() => UserAuth, (Auth) => Auth.user)
   Auth: UserAuth[];
+
 }
